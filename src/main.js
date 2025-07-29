@@ -20,6 +20,9 @@ let currentPage = 1;
 let totalHits = 0;
 const perPage = 15;
 
+// Початково приховуємо кнопку
+hideLoadMoreButton();
+
 form.addEventListener('submit', async e => {
   e.preventDefault();
 
@@ -57,8 +60,11 @@ form.addEventListener('submit', async e => {
 
     createGallery(data.hits);
 
-    if (totalHits > perPage) {
+    const alreadyLoaded = currentPage * perPage;
+    if (alreadyLoaded < totalHits) {
       showLoadMoreButton();
+    } else {
+      hideLoadMoreButton();
     }
   } catch (error) {
     iziToast.error({
